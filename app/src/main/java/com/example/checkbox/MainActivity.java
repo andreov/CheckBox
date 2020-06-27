@@ -17,45 +17,42 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox mCheckKarta;
     private CheckBox mCheckPhone;
     private CheckBox mCheckMoney;
+    private Button mBtnClick;
     private String type;
-    CompoundButton.OnCheckedChangeListener checkedChangeLilstn = new CompoundButton.OnCheckedChangeListener() {
+    private CompoundButton.OnCheckedChangeListener checkedChangeLilstn;
 
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (isChecked) {
-                switch (buttonView.getId()) {
-                    case R.id.checkKarta:
-                        resetCheckBoxes();
-                        mCheckKarta.setChecked(true);
-                        mInfoPayment.setInputType(InputType.TYPE_CLASS_NUMBER);
-                        type=" банковской картой № ";
-                        break;
-                    case R.id.checkPfone:
-                        resetCheckBoxes();
-                        mCheckPhone.setChecked(true);
-                        mInfoPayment.setInputType(InputType.TYPE_CLASS_PHONE);
-                        type=" мобильным телефоном на номер: ";
-                        break;
-                    case R.id.checkMoney:
-                        resetCheckBoxes();
-                        mCheckMoney.setChecked(true);
-                        mInfoPayment.setInputType(InputType.TYPE_CLASS_TEXT);
-                        type=" наличными по адресу: ";
-                        break;
-                    default:
-                }
-            }
-
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkBoxChange();
         initViews();
-        Button mBtnClick = findViewById(R.id.btnOK);
+        clickBtnOk();
+
+
+
+    }
+    private void initViews(){
+        mInMoney=findViewById(R.id.inMoney);
+        mInfoPayment=findViewById(R.id.infoPayment);
+        mCheckKarta=findViewById(R.id.checkKarta);
+        mCheckPhone=findViewById(R.id.checkPfone);
+        mCheckMoney=findViewById(R.id.checkMoney);
+        mBtnClick = findViewById(R.id.btnOK);
+        mCheckMoney.setOnCheckedChangeListener(checkedChangeLilstn);
+        mCheckPhone.setOnCheckedChangeListener(checkedChangeLilstn);
+        mCheckKarta.setOnCheckedChangeListener(checkedChangeLilstn);
+        mCheckKarta.setChecked(true);
+    }
+    private void resetCheckBoxes(){
+        mCheckKarta.setChecked(false);
+        mCheckPhone.setChecked(false);
+        mCheckMoney.setChecked(false);
+
+    }
+    private void clickBtnOk(){
+        //Button mBtnClick = findViewById(R.id.btnOK);
         mBtnClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,23 +64,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-    private void initViews(){
-        mInMoney=findViewById(R.id.inMoney);
-        mInfoPayment=findViewById(R.id.infoPayment);
-        mCheckKarta=findViewById(R.id.checkKarta);
-        mCheckPhone=findViewById(R.id.checkPfone);
-        mCheckMoney=findViewById(R.id.checkMoney);
-        mCheckMoney.setOnCheckedChangeListener(checkedChangeLilstn);
-        mCheckPhone.setOnCheckedChangeListener(checkedChangeLilstn);
-        mCheckKarta.setOnCheckedChangeListener(checkedChangeLilstn);
-        mCheckKarta.setChecked(true);
-    }
-    private void resetCheckBoxes(){
-        mCheckKarta.setChecked(false);
-        mCheckPhone.setChecked(false);
-        mCheckMoney.setChecked(false);
+    private void checkBoxChange(){
+        checkedChangeLilstn = new CompoundButton.OnCheckedChangeListener() {
 
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    switch (buttonView.getId()) {
+                        case R.id.checkKarta:
+                            resetCheckBoxes();
+                            mCheckKarta.setChecked(true);
+                            mInfoPayment.setInputType(InputType.TYPE_CLASS_NUMBER);
+                            type=" банковской картой № ";
+                            break;
+                        case R.id.checkPfone:
+                            resetCheckBoxes();
+                            mCheckPhone.setChecked(true);
+                            mInfoPayment.setInputType(InputType.TYPE_CLASS_PHONE);
+                            type=" мобильным телефоном на номер: ";
+                            break;
+                        case R.id.checkMoney:
+                            resetCheckBoxes();
+                            mCheckMoney.setChecked(true);
+                            mInfoPayment.setInputType(InputType.TYPE_CLASS_TEXT);
+                            type=" наличными по адресу: ";
+                            break;
+                        default:
+                    }
+                }
+
+            }
+        };
     }
 }
